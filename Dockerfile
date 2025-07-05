@@ -14,6 +14,8 @@ RUN sed -i 's/deb.debian.org/mirrors.tuna.tsinghua.edu.cn/g' /etc/apt/sources.li
 RUN apt-get update && apt-get install -y --no-install-recommends \
     build-essential \
     libpq-dev \
+    default-libmysqlclient-dev \
+    pkg-config \
     && apt-get clean \
     && rm -rf /var/lib/apt/lists/*
 
@@ -36,8 +38,6 @@ RUN mkdir -p logs && chmod 777 logs
 # 收集静态文件
 RUN python manage.py collectstatic --noinput
 
-# 自动执行数据库迁移和创建超级用户
-RUN python manage.py migrate
 # 暴露端口
 EXPOSE 8000
 

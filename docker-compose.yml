@@ -10,12 +10,17 @@ services:
       - ./logs:/app/logs
     ports:
       - "8000:8000"
-    environment:
-      - DEBUG=${DEBUG:-True} 
-      - SECRET_KEY=${SECRET_KEY}
-      - ALLOWED_HOSTS=${ALLOWED_HOSTS:-localhost,127.0.0.1}
+    networks:
+      - beisi-network
+    env_file:
+      - .env
 
 volumes:
   static_volume: {}   
   media_volume: {}    
-  db_volume: {}       
+  db_volume: {}
+
+networks: # 自定义网络配置
+  beisi-network: # 网络名称
+    driver: bridge # 使用桥接模式网络
+    name: beisi-shared-network # 指定网络别名
